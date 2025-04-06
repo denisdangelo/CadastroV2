@@ -1,0 +1,23 @@
+{
+  "name": "cadastrov2",
+  "version": "1.0.0",
+  "description": "Cadastro de clientes utilizando Electron e Bootstrap",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denisdangelo/CadastroV2.git"
+  },
+  "author": "Denis D'Angelo da Silveira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/denisdangelo/CadastroV2/issues"
+  },
+  "homepage": "https://github.com/denisdangelo/CadastroV2#readme",
+  "dependencies": {
+    "electron": "^35.1.4"
+  }
+}

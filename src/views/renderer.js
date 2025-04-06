@@ -1,0 +1,2 @@
+/* renderer do index.html */
+
