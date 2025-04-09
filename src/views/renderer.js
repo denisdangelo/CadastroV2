@@ -12,7 +12,7 @@ api.dbStatus((event, message)=>{
 })
 
 // inserção da data no rodapé
-/* function obterData() {
+function obterData() {
     const data = new Date()
     const options = {
         weekday: 'long',
@@ -23,4 +23,4 @@ api.dbStatus((event, message)=>{
     return data.toLocaleDateString('pt-BR', options)
 }
 
-document.get*/
+document.getElementById('dataAtual').innerHTML = obterData()
