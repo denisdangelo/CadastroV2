@@ -106,11 +106,14 @@ ipcMain.on('db-connect', async (event) => {
   let conectado = await conectar()
   // se conectado for igual a true
   if (conectado) {
+    //console.log("Conexão bem-sucedida, executando troca de ícone...")
       // enviar uma mensagem para o renderizador trocar o ícone, criar um delay de 0.5s para sincronizar a nuvem
       setTimeout(() => {
           event.reply('db-status', "conectado")
       }, 500) //500ms        
-  }
+  } /*else {
+    console.log("Falha na conexão, ícone não será alterado.")
+}*/
 })
 
 // IMPORTANTE ! Desconectar do banco de dados quando a aplicação for encerrada.

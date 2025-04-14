@@ -3,11 +3,13 @@
 console.log("Processo de reinderização")
 
 
-api.dbStatus((event, message)=>{
+api.dbStatus((event, message) => {
+     //teste do recebimento da mensagem do main
+     console.log(message)
     if (message === "conectado") {
-        document.getElementById('iconeDB').src = "../public/img/dbon.png"
+        document.getElementById('statusdb').src = "../public/img/dbon.png"
     } else {
-        document.getElementById('iconeDB').src = "../public/img/dboff.png"
+        document.getElementById('statusdb').src = "../public/img/dboff.png"
     }
 })
 

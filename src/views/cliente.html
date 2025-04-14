@@ -13,23 +13,36 @@
     <link rel="stylesheet" href="../public/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Cadastro de Clientes</h1>
-    </div>
-
-
     <!-- Cadastro -->
 
     <div id="interface" class="container">
         
 
-        <form method="post" enctype="text/plain" id="frmCliente">
-            <fieldset class="mb-4">
+        <form method="post" class="mt-2 row g-3" id="frmCliente">
+           
+            <!-- Buscar cliente -->
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="searchClient" maxlength="30" spellcheck="false">
+            </div>
+            
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary" id="btnRead" onclick="searchName()" autofocus>Buscar</button>
+            </div>
+            
+            <!-- Linha -->
+            <hr class="mt-4 border border-primary border -1">
                 
-                <!-- Nome -->
-                <div class="form-group mb-3">
-                    <label for="cnome" class="form-label">Nome:</label>
-                    <input type="text" name="nome" id="cnome" class="form-control" placeholder="Nome Completo" required autofocus>
+                <!-- Nome Telefone-->
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <label for="cnome" class="form-label">Nome:</label>
+                        <input type="text" name="nome" id="cnome" class="form-control" placeholder="Nome Completo" required>
+                    </div>
+                
+                    <div class="col-md-4">
+                        <label for="ctel" class="form-label">Celular</label>
+                        <input type="text" name="tel" id="ctel" class="form-control" placeholder="(XX)XXXXX-XXXX" required>
+                    </div>
                 </div>
 
                 <!-- Data de Nascimento e E-mail CPF-->
@@ -127,18 +140,11 @@
                     <button type="button" name="Excluir" class="btn btn-danger" id="btnDelete">Excluir</button>
                     <button type="reset" name="limpar" class="btn" id="btnReset" onclick="resetForm()"></button>
                 </div>
-            </fieldset>
         </form>
 
         
     </div>
 
-
-<!-- rodape -->
-    <footer>
-        <p id="dataAtual"></p>
-        <img src="../public/img/dboff.png" id="iconeDB" alt="icone do banco de dados desconectado">
-    </footer>
 
 
     <!-- Bootstrap -->
