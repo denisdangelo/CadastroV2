@@ -183,3 +183,65 @@ const template = [
 ipcMain.on('client-window', () => {
   clientWindow()
 })
+
+// =================================================================
+// == CRUD Create ==================================================
+ipcMain.on('new-client', async (event, client) => {
+  // Importante! Teste de recebimento dos dados do cliente
+  console.log(client)
+// Cadastrar a estrutura de dados no banco de dados MongoDB
+try {
+  const newCliente = new clienteModel({
+    nome: cadCliente.cadNome,
+    nasc: cadCliente.cadNasc,
+    email: cadCliente.cadEmail,
+    cpf: cadCliente.cadCpf,
+    cep: cadCliente.cadCep,
+    rua: cadCliente.cadLogradouro,
+    Num: cadCliente.cadNumero,
+    complemento: cadCliente.cadComplemento,
+    bairro: cadCliente.cadBairro,
+    cidade: cadCliente.cadCidade,
+    uf: cadCliente.cadUf
+  
+  })
+  await newCliente.save()
+  //confirmação de cliente adicionado no banco
+  dialog.showMessageBox({
+    type: 'info',
+    title: "Aviso",
+    message: "Cliente adicionado com sucesso",
+    buttons: ['OK']
+  }).then((result) => {
+   if (result.response === 0) {
+      event.reply('reset-form')
+   }
+  })
+} catch (error) {
+  //tratamento da escessão cpf duplicado
+ if (error.code === 11000) {
+    dialog.showMessageBox({
+      type: 'error',
+      title: "Atenção!",
+     message: "CPF Já cadastrado.//\nVerifique o número digitado",
+      buttons: ['OK']
+    }).them((result) => {
+      //se o botão OK for pressionado
+      if (result.response === 0) {
+        //...
+      }
+    })
+
+  } else {
+    console.log(error)
+  }
+}
+})
+
+// =================================================================
+// == FIM CRUD Create ==============================================
+
+
+
+
+
