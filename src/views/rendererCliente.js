@@ -147,3 +147,19 @@ frmCliente.addEventListener('submit', async (event) =>{
     // Enviar o objeto para o main (Passo 2: fluxo)
     api.createCliente(cadCliente)
 })
+
+
+
+
+
+// ============================================================
+// == Reset Form ==============================================
+function resetForm() {
+    location.reload()
+}
+
+api.resetForm((args) => {
+    resetForm()
+})
+// == Fim Reset Form ==========================================
+// ============================================================

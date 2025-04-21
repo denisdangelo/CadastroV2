@@ -9,7 +9,7 @@ const path = require('node:path')
 const { conectar, desconectar } = require('./database.js')
 
 // Importação do Schema Clientes da camada model
-const clienteModel = require('./src/models/Clientes.js')
+const clientesModel = require('./src/models/Clientes.js')
 
 /* janela principal*/
 let win
@@ -186,25 +186,26 @@ ipcMain.on('client-window', () => {
 
 // =================================================================
 // == CRUD Create ==================================================
-ipcMain.on('new-client', async (event, client) => {
+ipcMain.on('new-client', async (event, cadCliente) => {
   // Importante! Teste de recebimento dos dados do cliente
-  console.log(client)
+  console.log(cadCliente)
 // Cadastrar a estrutura de dados no banco de dados MongoDB
 try {
-  const newCliente = new clienteModel({
-    nome: cadCliente.cadNome,
-    nasc: cadCliente.cadNasc,
-    email: cadCliente.cadEmail,
-    cpf: cadCliente.cadCpf,
-    cep: cadCliente.cadCep,
-    rua: cadCliente.cadLogradouro,
-    Num: cadCliente.cadNumero,
-    complemento: cadCliente.cadComplemento,
-    bairro: cadCliente.cadBairro,
-    cidade: cadCliente.cadCidade,
-    uf: cadCliente.cadUf
-  
+  const newCliente = new clientesModel({
+    nomeCli: cadCliente.cadNome,
+    cpfCli: cadCliente.cadCpf,
+    nascCli: cadCliente.cadNasc,
+    emailCli: cadCliente.cadEmail,
+    cepCli: cadCliente.cadCep,
+    ruaCli: cadCliente.cadLogradouro,
+    NumCli: cadCliente.cadNumero,
+    complementoCli: cadCliente.cadComplemento,
+    bairroCli: cadCliente.cadBairro,
+    cidadeCli: cadCliente.cadCidade,
+    ufCli: cadCliente.cadUf
+
   })
+  // <== ADICIONE ISSO
   await newCliente.save()
   //confirmação de cliente adicionado no banco
   dialog.showMessageBox({
@@ -218,6 +219,7 @@ try {
    }
   })
 } catch (error) {
+  
   //tratamento da escessão cpf duplicado
  if (error.code === 11000) {
     dialog.showMessageBox({
@@ -230,7 +232,7 @@ try {
       if (result.response === 0) {
         //...
       }
-    })
+    }) 
 
   } else {
     console.log(error)
