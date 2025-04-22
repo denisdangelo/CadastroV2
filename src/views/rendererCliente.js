@@ -32,9 +32,9 @@ function buscarEndereco() {
                 campoCEP.focus(); // Retorna o foco para o campo do CEP
             });
     } else {
-       mensagemErro.style.display = 'inline';
-       campoCEP.value = ""; // Limpa o campo
-       campoCEP.focus(); // Retorna o foco para o campo do CEP
+        mensagemErro.style.display = 'inline';
+        campoCEP.value = ""; // Limpa o campo
+        campoCEP.focus(); // Retorna o foco para o campo do CEP
     }
 }
 
@@ -84,8 +84,8 @@ function TestaCPF(strCPF) {
 
     return true;
 }
-*/ 
- 
+*/
+
 // capturar o foco na busca pelo nome do cliente
 // a constante foco obtem o elemento html (input) identificado como 'searchClient'
 const foco = document.getElementById('searchClient')
@@ -109,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //criando as variaveis para capturar as informaçãoes do html renderer cliente
 
 let cnome = document.getElementById("cnome")
+let ctel = document.getElementById("ctel")
 let cnasc = document.getElementById("cnasc")
 let cemail = document.getElementById("cemail")
 let ccpf = document.getElementById("ccpf")
@@ -123,14 +124,15 @@ let cuf = document.getElementById("cuf")
 
 // ========================================
 // CRUD create =============================
-frmCliente.addEventListener('submit', async (event) =>{
+frmCliente.addEventListener('submit', async (event) => {
     // evitar o comportamento padrão (recarregar a página)
     event.preventDefault()
     // IMPORTANTE! (teste de recebimento dos dados do form - Passo 1)
-    console.log(cnome.value, cnasc.value, cemail.value, ccpf.value, ccpf.value, clogradouro.value, cnumero.value, ccomplemento.value, cbairro.value, ccidade.value,cuf.value)
-     //criar um objeto para enviar ao main os dados da nota
-     const cadCliente = {
+    console.log(cnome.value, ctel.value, cnasc.value, cemail.value, ccpf.value, ccpf.value, clogradouro.value, cnumero.value, ccomplemento.value, cbairro.value, ccidade.value, cuf.value)
+    //criar um objeto para enviar ao main os dados da nota
+    const cadCliente = {
         cadNome: cnome.value,
+        cadTel: ctel.value,
         cadNasc: cnasc.value,
         cadEmail: cemail.value,
         cadCpf: ccpf.value,
@@ -149,7 +151,43 @@ frmCliente.addEventListener('submit', async (event) =>{
 })
 
 
+// == Crud Read  ==============================================
+//=============================================================
 
+function searchNome() {
+    //teste do botão buscar
+    //console.log('teste do botão de buscar')
+    let nomeCli = document.getElementById('searchClient').value
+    console.log(nomeCli)
+    api.searchNome(nomeCli)
+    //receber os dados do cliente (passo 5)
+    api.renderCli((event, cliente) => {
+        console.log(cliente)
+        //passo 6 renderização dos ddos do cliente (prencher os inputs do form) - 
+        //Não esquecer de converter os dados do cliente para JSON
+        const dadosCli = JSON.parse(cliente)
+        arrayClient = dadosCli
+        //uso do forEach para percorer o vetor e extrair os dados
+        arrayClient.forEach((c) => {
+            cnome.value = c.nomeCli
+            ctel.value = c.telCli
+            cnasc.value = c.nascCli
+            cemail.value = c.emailCli
+            ccpf.value = c.cpfCli
+            ccep.value = c.cepCli
+            clogradouro.value = c.ruaCli
+            cnumero.value = c.NumCli
+            ccomplemento.value = c.complementoCli
+            cbairro.value = c.bairroCli
+            ccidade.value = c.cidadeCli
+            cuf.value = c.ufCli
+
+        });
+
+    })
+}
+// == Fim Crud Read  ==========================================
+//=============================================================
 
 
 // ============================================================
@@ -163,3 +201,4 @@ api.resetForm((args) => {
 })
 // == Fim Reset Form ==========================================
 // ============================================================
+

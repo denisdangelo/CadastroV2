@@ -11,6 +11,9 @@ const clienteSchema = new Schema({
     nomeCli: {
         type: String
     },
+    telCli: {
+        type: String
+    },
     nascCli:{
         type: String
     },

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/denisdangelo/CadastroV2#readme",
   "dependencies": {
     "electron": "^35.1.4",
+    "jspdf": "^3.0.1",
     "mongoose": "^8.13.2"
   }
 }

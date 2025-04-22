@@ -11,6 +11,12 @@ const { conectar, desconectar } = require('./database.js')
 // Importação do Schema Clientes da camada model
 const clientesModel = require('./src/models/Clientes.js')
 
+// Importação da biblioteca nativa do JS para manipular arquivos
+const fs = require("fs");
+
+// Importação do pacote JSPDF (arquivos PDF) npm install jspdf
+const { jspdf, default: jsPDF } = require("jspdf");
+
 /* janela principal*/
 let win
 const createWindow = () => {
@@ -141,6 +147,15 @@ const template = [
     ]
   },
   {
+    label: "Relatório",
+    submenu: [
+      {
+        label: "Clientes",
+        click: () => relatorioClientes(),
+      },
+    ],
+  },
+  {
     label: 'Ferramentas',
     submenu: [
       {
@@ -193,6 +208,7 @@ ipcMain.on('new-client', async (event, cadCliente) => {
 try {
   const newCliente = new clientesModel({
     nomeCli: cadCliente.cadNome,
+    telCli: cadCliente.cadTel,
     cpfCli: cadCliente.cadCpf,
     nascCli: cadCliente.cadNasc,
     emailCli: cadCliente.cadEmail,
@@ -242,6 +258,119 @@ try {
 
 // =================================================================
 // == FIM CRUD Create ==============================================
+
+// =================================================================
+// ================= CRUD READ =====================================
+
+ipcMain.on ('search-name', async (event, nomeCli) =>{
+  console.log(nomeCli)
+  try{
+    //RegExp (expressão regular; 'i' insensitivi - ignorar letras maiusculas ou minusculas)
+    const cliente = await clientesModel.find({
+      nomeCli: new RegExp(nomeCli, 'i')
+    })
+    //Teste de busca do cliente pelo nome
+    console.log(cliente)
+    // enviar ao renderizador (rendererCliente) os dados do cliente (passo 5)
+    //OBS: Não esquecer de converter de JSON par String (usar JSON.stringfy)
+    event.reply('renderer-client', JSON.stringify(cliente))
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+
+
+async function relatorioClientes() {
+  try {
+    // ===========================================
+    //        Confiuração do document PDF
+    // ===========================================
+    // p (portrait), l (landscape)
+    // mm = milimiters
+    // a4 = tamanho
+    // sempre projetar conforme um documento impresso
+    const doc = new jsPDF("p", "mm", "a4");
+
+    // inserir data atual no documento
+    const dataAtual = new Date().toLocaleDateString("pt-BR");
+
+    // diminuir texto doc.setFontSize() tamanho da fonte em ponto ( = word) pt
+    doc.setFontSize(10);
+    // a linha abaixo escreve um texto no documento
+    doc.text(`Data: ${dataAtual}`, 170, 15); // (x,y (mm))
+    doc.setFontSize(18);
+    doc.text("Relatório de clientes", 15, 30);
+    doc.setFontSize(12);
+    let y = 50; // variável de apoio
+
+    // Cabeçalho da tabela
+    doc.text("Nome", 14, y);
+    doc.text("Telefone", 85, y);
+    doc.text("E-mail", 130, y);
+    y += 5;
+
+    //desenhar uma linha
+    doc.setLineWidth(0.5);
+    doc.line(10, y, 200, y); // (10 (inicio)___________200 (fim))
+    y += 10;
+
+    // ===============================================
+    // Obter a listagem de clientes (ordem alfabética)
+    // ===============================================
+
+    const clientes = await clientesModel.find().sort({ nomeCli: 1 });
+
+    //    console.log(clientes)
+    // popular o documento pdf com os clientes cadastrados
+    clientes.forEach((c) => {
+      // criar uma nova pagina se Y > 280mm (A4 = 297mm)
+      if (y > 280) {
+        doc.addPage();
+        y = 20; // margem
+
+        // Cabeçalho
+        doc.text("Nome", 14, y);
+        doc.text("Telefone", 85, y);
+        doc.text("E-mail", 130, y);
+        y += 5;
+      }
+      doc.text(c.nomeCli, 14, y);
+      doc.text(c.telCli, 85, y);
+      doc.text(c.emailCli, 130, y);
+      y += 10;
+    });
+
+    // ============================================
+    //        Numeração automática de páginas
+    // ============================================
+
+    const pages = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pages; i++) {
+      doc.setPage(i);
+      doc.setFontSize(10);
+      doc.text(`Página ${i} de ${pages}`, 105, 290, { align: "center" });
+    }
+
+    // ============================================
+    // Abrir o arquivo pdf no sistema operacional
+    // ============================================
+
+    // Definir o caminho do arquivo temporário e nome do arquivo com extensão .pdf (!!! Importante !!!)
+    const tempDir = app.getPath("temp");
+    const filePath = path.join(tempDir, "clientes.pdf");
+    // salvar temporariamente o arquivo
+    doc.save(filePath);
+    // abrir o arquivo no aplicativo padrão de leitura de pdf do computador do usuário
+    shell.openPath(filePath);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// ========= FIM RELATÓRIO DE CLIENTES ===========
+// ===============================================
+
 
 
 
