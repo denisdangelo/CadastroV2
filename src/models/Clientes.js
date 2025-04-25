@@ -21,7 +21,9 @@ const clienteSchema = new Schema({
         type: String
     },
     cpfCli: {
-        type: String
+        type: String,
+        unique: true, //campo unico
+        index: true //relaciona o cpf ao id
     },
     cepCli: {
         type: String

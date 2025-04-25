@@ -17,3 +17,13 @@ footer p {
     padding-top: 7px;
     font-size: 1.2em;    
 }
+
+/* Botão Reset */
+#btnReset {
+    width: 48px;
+    height: 48px;
+    background-image: url("../img/limpar.png");
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}

@@ -93,9 +93,9 @@ const foco = document.getElementById('searchClient')
 //criar um vetor global para extrair os dados do cliente 9Manipulação de dados)
 let arrayClient = []
 
-/*  evento para retirar a opção de ativar o botão antes de preencher os campos
+//evento para retirar a opção de ativar o botão antes de preencher os campos
 
-Iniciar a janela de clientes alterando as propriedades de alguns elementos:
+//Iniciar a janela de clientes alterando as propriedades de alguns elementos:
 document.addEventListener('DOMContentLoaded', () => {
     // Desativar os botões
     btnUpdate.disabled = true
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     foco.focus()
 })
 
-*/
+
 
 //criando as variaveis para capturar as informaçãoes do html renderer cliente
 
