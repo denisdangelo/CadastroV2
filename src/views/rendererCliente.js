@@ -150,6 +150,17 @@ frmCliente.addEventListener('submit', async (event) => {
     api.createCliente(cadCliente)
 })
 
+// Escutar o aviso de CPF duplicado vindo do processo main
+api.cpfDuplicado(() => {
+    const cpfInput = document.getElementById("ccpf")
+  
+    // Adiciona borda vermelha
+    cpfInput.style.border = "2px solid red"
+  
+    // Coloca o foco no campo
+    cpfInput.focus()
+  })
+
 
 // == Crud Read  ==============================================
 //=============================================================

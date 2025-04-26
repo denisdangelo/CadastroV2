@@ -243,10 +243,11 @@ try {
       title: "Atenção!",
      message: "CPF Já cadastrado.//\nVerifique o número digitado",
       buttons: ['OK']
-    }).them((result) => {
+    }).then((result) => {
       //se o botão OK for pressionado
       if (result.response === 0) {
-        //...
+        event.reply('reset-form')
+        event.reply('cpf-duplicado') // envia para o renderer
       }
     }) 
 

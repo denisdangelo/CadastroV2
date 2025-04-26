@@ -16,5 +16,9 @@ contextBridge.exposeInMainWorld('api', {
     createCliente: (cadCliente) => ipcRenderer.send('new-client', cadCliente),
     resetForm: (args) => ipcRenderer.on('reset-form', args),
     searchNome: (nomeCli) => ipcRenderer.send('search-name', nomeCli),
-    renderCli: (cliente) => ipcRenderer.on ('renderer-client', cliente)
+    renderCli: (cliente) => ipcRenderer.on ('renderer-client', cliente),
+    // Usamos "callback" porque ipcRenderer.on espera uma função (callback) como argumento.
+    // Quando o processo principal (main.js) envia a mensagem 'cpf-duplicado', essa função será executada automaticamente.
+    // Isso permite reagir dinamicamente a eventos IPC, como exibir alertas, mudar estilo ou manipular o DOM.
+    cpfDuplicado: (callback) => ipcRenderer.on('cpf-duplicado', callback)
 })

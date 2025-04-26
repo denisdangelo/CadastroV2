@@ -1,0 +1,44 @@
+Atividade de avaliação - individual
+Desenvolvimento de um cadastro de clientes usando electron e mongoDB Atlas
+
+Parte 1 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+- Criar um repositório no GitHub e clonar no computador
+- Iniciar um novo projeto electron
+- Criar a tela principal e personalizar a janela (livre)
+- Criar um menu personalizado, da seguinte forma:
+
+Cadastro    Relatório    Ferramentas	  Ajuda	
+    Sair      Clientes    Aplicar Zoom     Repositório
+                          Reduzir          Sobre
+                          Restaurar Zoom
+                          ______________
+                          Recarregar 
+                          DevTools   
+
+Parte 2 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+- Formatar a tela sobre do sticky notes e do cadastro de clientes
+- Criar e formatar a tela do projeto de cadastro de clientes
+- Criar um rodapé com data e ícone de status do banco de dados 
+
+Parte 3 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Conectar o banco de dados no cadastro de clientes e mudar o ícone do status
+quando conectado.
+
+Parte 4 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CRUD Create: Cadastrar 10 clientes no banco de dados
+Valdações:
+- CEP(endereço automático)
+- CPF(validação e tratamento de exceção(cpf duplicado) limpar o campo CPF, focar e deixar borda em vermelho
+- Mensagem de cadastro realizado com sucesso
+
+Parte 5 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Criar um botão para buscar o cliente pelo CPF
+Desafio extra (não obrigatório) usar o mesmo botão no campo de busca tanto
+para o nome como para o cpf (vale 2 créditos)
+
+
+Parte 6 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CRUD Delete: Criar o método de exclusão de um cliente
+
+
+

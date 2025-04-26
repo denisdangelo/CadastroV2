@@ -27,3 +27,7 @@ footer p {
     cursor: pointer;
     margin-left: 10px;
 }
+
+.erro-cpf {
+    border: 2px solid red;
+  }
