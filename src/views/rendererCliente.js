@@ -93,9 +93,8 @@ const foco = document.getElementById('searchClient')
 //criar um vetor global para extrair os dados do cliente 9Manipulação de dados)
 let arrayClient = []
 
-/*  evento para retirar a opção de ativar o botão antes de preencher os campos
-
-Iniciar a janela de clientes alterando as propriedades de alguns elementos:
+// evento para retirar a opção de ativar o botão antes de preencher os campos
+// Iniciar a janela de clientes alterando as propriedades de alguns elementos:
 document.addEventListener('DOMContentLoaded', () => {
     // Desativar os botões
     btnUpdate.disabled = true
@@ -104,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     foco.focus()
 })
 
-*/
+
 
 //criando as variaveis para capturar as informaçãoes do html renderer cliente
 
@@ -163,7 +162,7 @@ function searchNome() {
     //receber os dados do cliente (passo 5)
     api.renderCli((event, cliente) => {
         console.log(cliente)
-        //passo 6 renderização dos ddos do cliente (prencher os inputs do form) - 
+        //passo 6 renderização dos dados do cliente (prencher os inputs do form) - 
         //Não esquecer de converter os dados do cliente para JSON
         const dadosCli = JSON.parse(cliente)
         arrayClient = dadosCli
@@ -202,3 +201,29 @@ api.resetForm((args) => {
 // == Fim Reset Form ==========================================
 // ============================================================
 
+// ============================
+// ====== CPF duplicado =======
+
+function cpfDuplicate(cadCliente) {
+	cnome.value = "";
+    ctel.value = "";
+    cnasc.value = "";
+    cemail.value = "";
+    ccpf.value = "";
+    ccep.value = "";
+    clogradouro.value = "";
+    cnumero.value = "";
+    ccomplemento.value = "";
+    cbairro.value = "";
+    ccidade.value = "";
+    cuf.value = "";	
+	ccpf.focus();
+	ccpf.classList.add("is-invalid");
+  }
+  
+  api.cpfDuplicate((args) => {
+	cpfDuplicate();
+  });
+  
+  // ==== FIM CPF duplicado =====
+  // ============================
