@@ -218,7 +218,7 @@ function cpfDuplicate(cadCliente) {
     ccidade.value = "";
     cuf.value = "";	
 	ccpf.focus();
-	ccpf.classList.add("is-invalid");
+	ccpf.classList.add("is-invalid"); //adição da classe do bootstrap que altera a tag para borda vermelha.
   }
   
   api.cpfDuplicate((args) => {
