@@ -261,13 +261,25 @@ ipcMain.on('new-client', async (event, cadCliente) => {
 // =================================================================
 // ================= CRUD READ =====================================
 
-ipcMain.on('search-name', async (event, nomeCli) => {
-	console.log(nomeCli)
+ipcMain.on('search-cli', async (event, buscaCli) => {
+	console.log(buscaCli)
 	try {
+		//daquia pouco
+		let cliente = []
+		// Remove pontos e traços se o CPF vier formatado
+		const valorLimpo = buscaCli.replace(/\D/g, '')
+
+		if (/^\d{11}$/.test(valorLimpo)) {
+			// É um CPF válido (11 dígitos numéricos)
+			cliente = await clientesModel.find({
+				cpfCli: valorLimpo
+			})
+		} else {
 		//RegExp (expressão regular; 'i' insensitivi - ignorar letras maiusculas ou minusculas)
-		const cliente = await clientesModel.find({
-			nomeCli: new RegExp(nomeCli, 'i')
+			cliente = await clientesModel.find({
+			nomeCli: new RegExp(buscaCli, 'i')
 		})
+	}
 		//Teste de busca do cliente pelo nome
 		console.log(cliente)
 		// enviar ao renderizador (rendererCliente) os dados do cliente (passo 5)

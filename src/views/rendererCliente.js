@@ -149,7 +149,7 @@ frmCliente.addEventListener('submit', async (event) => {
     api.createCliente(cadCliente)
 })
 
-// Escutar o aviso de CPF duplicado vindo do processo main
+/* Escutar o aviso de CPF duplicado vindo do processo main
 api.cpfDuplicado(() => {
     const cpfInput = document.getElementById("ccpf")
   
@@ -158,18 +158,18 @@ api.cpfDuplicado(() => {
   
     // Coloca o foco no campo
     cpfInput.focus()
-  })
+  })*/
 
 
 // == Crud Read  ==============================================
 //=============================================================
 
-function searchNome() {
+function searchCliente() {
     //teste do botão buscar
     //console.log('teste do botão de buscar')
-    let nomeCli = document.getElementById('searchClient').value
-    console.log(nomeCli)
-    api.searchNome(nomeCli)
+    let buscaCli = document.getElementById('searchClient').value
+    console.log(buscaCli)
+    api.searchCliente(buscaCli)
     //receber os dados do cliente (passo 5)
     api.renderCli((event, cliente) => {
         console.log(cliente)

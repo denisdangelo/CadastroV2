@@ -15,7 +15,7 @@ contextBridge.exposeInMainWorld('api', {
     dbStatus: (message) => ipcRenderer.on('db-status', message),
     createCliente: (cadCliente) => ipcRenderer.send('new-client', cadCliente),
     resetForm: (args) => ipcRenderer.on('reset-form', args),
-    searchNome: (nomeCli) => ipcRenderer.send('search-name', nomeCli),
+	searchCliente: (buscaCli) => ipcRenderer.send('search-cli', buscaCli),
     renderCli: (cliente) => ipcRenderer.on ('renderer-client', cliente),
 	cpfDuplicate: (args) => ipcRenderer.on('cpf-duplicate', args),
 })
