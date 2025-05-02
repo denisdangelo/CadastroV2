@@ -264,9 +264,17 @@ ipcMain.on('new-client', async (event, cadCliente) => {
 ipcMain.on('search-cli', async (event, buscaCli) => {
 	console.log(buscaCli)
 	try {
-		//daquia pouco
+		// Inicializa 'cliente' como um array vazio por segurança.
+		// Mesmo que nenhuma busca seja feita (ou falhe), 'cliente' ainda existirá como array.
+		// Isso evita erros ao fazer JSON.stringify(cliente) ou ao usar .forEach no renderer.
+		// O método .find() sempre retorna um array, então manter esse padrão evita problemas.
 		let cliente = []
-		// Remove pontos e traços se o CPF vier formatado
+		// O método .replace(/\D/g, '') remove qualquer caractere que não seja um número.
+		// A expressão regular /\D/g significa:
+		// - \D: corresponde a qualquer caractere que não seja um dígito (0-9)
+		// - g: aplica a substituição globalmente (em toda a string)
+		// Portanto, ele remove pontos, traços e outros caracteres não numéricos, deixando apenas os números.
+		// Exemplo: "123.456.789-00" se torna "12345678900"
 		const valorLimpo = buscaCli.replace(/\D/g, '')
 
 		if (/^\d{11}$/.test(valorLimpo)) {
