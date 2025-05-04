@@ -260,44 +260,79 @@ ipcMain.on('new-client', async (event, cadCliente) => {
 
 // =================================================================
 // ================= CRUD READ =====================================
+ipcMain.on('validate-search', () => {
+	dialog.showMessageBox({
+		type: 'warning',
+		title: 'Atenção',
+		message: 'Preencha o campo de busca',
+		buttons: ['OK']
+	})
+})
+
 
 ipcMain.on('search-cli', async (event, buscaCli) => {
 	console.log(buscaCli)
 	try {
-		// Inicializa 'cliente' como um array vazio por segurança.
+		/* // Inicializa 'cliente' como um array vazio por segurança.
 		// Mesmo que nenhuma busca seja feita (ou falhe), 'cliente' ainda existirá como array.
 		// Isso evita erros ao fazer JSON.stringify(cliente) ou ao usar .forEach no renderer.
 		// O método .find() sempre retorna um array, então manter esse padrão evita problemas.
-		let cliente = []
-		// O método .replace(/\D/g, '') remove qualquer caractere que não seja um número.
-		// A expressão regular /\D/g significa:
-		// - \D: corresponde a qualquer caractere que não seja um dígito (0-9)
-		// - g: aplica a substituição globalmente (em toda a string)
-		// Portanto, ele remove pontos, traços e outros caracteres não numéricos, deixando apenas os números.
-		// Exemplo: "123.456.789-00" se torna "12345678900"
-		const valorLimpo = buscaCli.replace(/\D/g, '')
+		let cliente = [] */
+		let cliente = await buscarCliente(buscaCli) // Chama a função de busca e aguarda o retorno
 
-		if (/^\d{11}$/.test(valorLimpo)) {
-			// É um CPF válido (11 dígitos numéricos)
-			cliente = await clientesModel.find({
-				cpfCli: valorLimpo
-			})
+		if (cliente.length === 0) {
+			// Se não encontrou cliente, pergunta se quer cadastrar
+			await perguntarCadastro(event)
 		} else {
-		//RegExp (expressão regular; 'i' insensitivi - ignorar letras maiusculas ou minusculas)
-			cliente = await clientesModel.find({
-			nomeCli: new RegExp(buscaCli, 'i')
-		})
-	}
-		//Teste de busca do cliente pelo nome
-		console.log(cliente)
-		// enviar ao renderizador (rendererCliente) os dados do cliente (passo 5)
-		//OBS: Não esquecer de converter de JSON par String (usar JSON.stringfy)
-		event.reply('renderer-client', JSON.stringify(cliente))
+			// Se encontrou, envia os dados para o renderer
+			await enviarCliente(event, cliente)
+		}
 	} catch (error) {
 		console.log(error)
 	}
 })
 
+async function buscarCliente(buscaCli) {
+	const valorLimpo = buscaCli.replace(/\D/g, '')
+	// O método .replace(/\D/g, '') remove qualquer caractere que não seja um número.
+	let cliente = []
+	if (/^\d{11}$/.test(valorLimpo)) {
+		// É um CPF válido (11 dígitos numéricos)
+		cliente = await clientesModel.find({
+			cpfCli: valorLimpo
+		})
+	} else {
+		//RegExp (expressão regular; 'i' insensitivi - ignorar letras maiusculas ou minusculas)
+		cliente = await clientesModel.find({
+			nomeCli: new RegExp(buscaCli, 'i')
+		})
+	} 
+	return cliente
+}
+
+async function enviarCliente(event, cliente) {
+	//Teste de busca do cliente pelo nome
+	console.log(cliente)
+	// enviar ao renderizador (rendererCliente) os dados do cliente (passo 5)
+	//OBS: Não esquecer de converter de JSON par String (usar JSON.stringfy)
+	event.reply('renderer-client', JSON.stringify(cliente))
+}
+
+async function perguntarCadastro(event) {
+	const result = await dialog.showMessageBox({
+		type: 'warning',
+		title: 'Aviso',
+		message: 'Cliente Não Cadastrado. \nDeseja Cadastra-lo',
+		defaultId: 0,
+		buttons: ['Sim', 'Não']//[0,1]defaultId: 0 = sim 
+	}).then((result) => {
+		if (result.response === 0) {
+			event.reply('set-cli')
+		} else {
+			event.reply('reset-form')
+		}
+	})
+}
 
 
 async function relatorioClientes() {

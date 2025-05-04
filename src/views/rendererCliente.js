@@ -149,16 +149,26 @@ frmCliente.addEventListener('submit', async (event) => {
     api.createCliente(cadCliente)
 })
 
-/* Escutar o aviso de CPF duplicado vindo do processo main
-api.cpfDuplicado(() => {
-    const cpfInput = document.getElementById("ccpf")
-  
-    // Adiciona borda vermelha
-    cpfInput.style.border = "2px solid red"
-  
-    // Coloca o foco no campo
-    cpfInput.focus()
-  })*/
+// ============================================================
+// == Manupulação do Enter ======================================
+//manipulação de enter como se usa em Games
+function teclaEnter(event) {
+    if (event.key === "Enter"){
+        event.preventDefault() // ignorar o comportamento padrão
+        //Executar o metodo de busca do cliente
+        searchCliente()
+    }
+}
+
+//Escuta do teclado / keydown apertar a tecla
+frmCliente.addEventListener('keydown', teclaEnter)
+
+function restaurarEnter(){
+    frmCliente.removeEventListener('keydown', teclaEnter) //removeEventListener - remove o evento de ouvir o parametro
+}
+
+// ============================================================
+// == Manupulação do Enter - Fim ==============================
 
 
 // == Crud Read  ==============================================
@@ -169,33 +179,42 @@ function searchCliente() {
     //console.log('teste do botão de buscar')
     let buscaCli = document.getElementById('searchClient').value
     console.log(buscaCli)
-    api.searchCliente(buscaCli)
-    //receber os dados do cliente (passo 5)
-    api.renderCli((event, cliente) => {
-        console.log(cliente)
-        //passo 6 renderização dos dados do cliente (prencher os inputs do form) - 
-        //Não esquecer de converter os dados do cliente para JSON
-        const dadosCli = JSON.parse(cliente)
-        arrayClient = dadosCli
-        //uso do forEach para percorer o vetor e extrair os dados
-        arrayClient.forEach((c) => {
-            cnome.value = c.nomeCli
-            ctel.value = c.telCli
-            cnasc.value = c.nascCli
-            cemail.value = c.emailCli
-            ccpf.value = c.cpfCli
-            ccep.value = c.cepCli
-            clogradouro.value = c.ruaCli
-            cnumero.value = c.NumCli
-            ccomplemento.value = c.complementoCli
-            cbairro.value = c.bairroCli
-            ccidade.value = c.cidadeCli
-            cuf.value = c.ufCli
-
-        });
-
-    })
+    //validação de campo obrigatório serachClient no impt do html
+    if (buscaCli === ""){
+        //enviar al main um pedido para alertar o usuário
+        api.validateSearch()
+    } else {
+        api.searchCliente(buscaCli)
+        //receber os dados do cliente (passo 5)
+        api.renderCli((event, cliente) => {
+            console.log(cliente)
+            //passo 6 renderização dos dados do cliente (prencher os inputs do form) - 
+            //Não esquecer de converter os dados do cliente para JSON
+            const dadosCli = JSON.parse(cliente)
+            arrayClient = dadosCli
+            //uso do forEach para percorer o vetor e extrair os dados
+            arrayClient.forEach((c) => {
+                cnome.value = c.nomeCli
+                ctel.value = c.telCli
+                cnasc.value = c.nascCli
+                cemail.value = c.emailCli
+                ccpf.value = c.cpfCli
+                ccep.value = c.cepCli
+                clogradouro.value = c.ruaCli
+                cnumero.value = c.NumCli
+                ccomplemento.value = c.complementoCli
+                cbairro.value = c.bairroCli
+                ccidade.value = c.cidadeCli
+                cuf.value = c.ufCli
+    
+            });
+    
+        })
+    }
+    
 }
+
+
 // == Fim Crud Read  ==========================================
 //=============================================================
 

@@ -18,4 +18,6 @@ contextBridge.exposeInMainWorld('api', {
 	searchCliente: (buscaCli) => ipcRenderer.send('search-cli', buscaCli),
     renderCli: (cliente) => ipcRenderer.on ('renderer-client', cliente),
 	cpfDuplicate: (args) => ipcRenderer.on('cpf-duplicate', args),
+    validateSearch: () => ipcRenderer.send('validate-search'),
+    setName: (args) => ipcRenderer.on('set-name', args),
 })
