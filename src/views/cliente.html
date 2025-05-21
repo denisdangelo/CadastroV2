@@ -19,6 +19,9 @@
         
 
         <form method="post" class="mt-2 row g-3" id="frmCliente">
+
+            <!-- Id do cliente (oculto) -->
+            <input type="text" id="inputIdCliente">
            
             <!-- Buscar cliente -->
             <div class="col-md-6">
@@ -135,7 +138,7 @@
 
                 <!-- Botões -->
                 <div class="text-center">
-                    <button type="submit" name="enviar" class="btn btn-primary" id="btnCriate">Enviar</button>
+                    <button type="submit" name="enviar" class="btn btn-primary" id="btnCreate">Enviar</button>
                     <button type="submit" name="editar" class="btn btn-warning" id="btnUpdate">Editar</button>
                     <button type="button" name="Excluir" class="btn btn-danger" id="btnDelete">Excluir</button>
                     <button type="reset" name="limpar" class="btn" id="btnReset" onclick="resetForm()"></button>

@@ -119,35 +119,75 @@ let ccomplemento = document.getElementById("ccomplemento")
 let cbairro = document.getElementById("cbairro")
 let ccidade = document.getElementById("ccidade")
 let cuf = document.getElementById("cuf")
+// Uso do ID para o delete e update
+let idCliente = document.getElementById('inputIdCliente')
+
 
 
 // ========================================
-// CRUD create =============================
+// CRUD create/Update =============================
 frmCliente.addEventListener('submit', async (event) => {
     // evitar o comportamento padrão (recarregar a página)
     event.preventDefault()
     // IMPORTANTE! (teste de recebimento dos dados do form - Passo 1)
-    console.log(cnome.value, ctel.value, cnasc.value, cemail.value, ccpf.value, ccpf.value, clogradouro.value, cnumero.value, ccomplemento.value, cbairro.value, ccidade.value, cuf.value)
-    //criar um objeto para enviar ao main os dados da nota
-    const cadCliente = {
-        cadNome: cnome.value,
-        cadTel: ctel.value,
-        cadNasc: cnasc.value,
-        cadEmail: cemail.value,
-        cadCpf: ccpf.value,
-        cadCep: ccep.value,
-        cadLogradouro: clogradouro.value,
-        cadNumero: cnumero.value,
-        cadComplemento: ccomplemento.value,
-        cadBairro: cbairro.value,
-        cadCidade: ccidade.value,
-        cadUf: cuf.value
+    //console.log(cnome.value, ctel.value, cnasc.value, cemail.value, ccpf.value, ccpf.value, clogradouro.value, cnumero.value, ccomplemento.value, cbairro.value, ccidade.value, cuf.value)
+    //criar um objeto para enviar ao main os dados da do cliente
+
+    //estratégia para usar o submit para cadastrar um novo cliente ou editar os dados de um cliente já existente
+    //verificar se existe o id do cliente
+    if (idCliente.value === "") {
+        
+        const cadCliente = {
+            cadNome: cnome.value,
+            cadTel: ctel.value,
+            cadNasc: cnasc.value,
+            cadEmail: cemail.value,
+            cadCpf: ccpf.value,
+            cadCep: ccep.value,
+            cadLogradouro: clogradouro.value,
+            cadNumero: cnumero.value,
+            cadComplemento: ccomplemento.value,
+            cadBairro: cbairro.value,
+            cadCidade: ccidade.value,
+            cadUf: cuf.value
+        }
+        //teste de comunicação envio
+        console.log('Enviando para main process:', cadCliente)
+        // Enviar o objeto para o main (Passo 2: fluxo)
+        api.createCliente(cadCliente)
+
+    } else {
+
+        // alterar os dados de um cliente existente
+        // teste de validação do id
+        console.log(idCliente.value)
+        // editar um cliente existente
+        //OBS o lado direito é o que ele recebe do html e o lado esquerdo é o que ele manda para o main
+
+        const cadCliente = {
+            idCli: idCliente.value,
+            cadNome: cnome.value,
+            cadTel: ctel.value,
+            cadNasc: cnasc.value,
+            cadEmail: cemail.value,
+            cadCpf: ccpf.value,
+            cadCep: ccep.value,
+            cadLogradouro: clogradouro.value,
+            cadNumero: cnumero.value,
+            cadComplemento: ccomplemento.value,
+            cadBairro: cbairro.value,
+            cadCidade: ccidade.value,
+            cadUf: cuf.value
+
+        }
+        // Enviar ao main o objeto client - (Passo 2: fluxo)
+        // uso do preload.js
+        api.updateClient(cadCliente)
     }
-    //teste de comunicação envio
-    console.log('Enviando para main process:', cadCliente)
-    // Enviar o objeto para o main (Passo 2: fluxo)
-    api.createCliente(cadCliente)
 })
+
+// == Fim CRUD Create/Update ==================================
+// ============================================================
 
 // ============================================================
 // == Manupulação do Enter ======================================
@@ -194,6 +234,7 @@ function searchCliente() {
             arrayClient = dadosCli
             //uso do forEach para percorer o vetor e extrair os dados
             arrayClient.forEach((c) => {
+                idCliente.value = c._id
                 cnome.value = c.nomeCli
                 ctel.value = c.telCli
                 cnasc.value = c.nascCli
@@ -206,6 +247,14 @@ function searchCliente() {
                 cbairro.value = c.bairroCli
                 ccidade.value = c.cidadeCli
                 cuf.value = c.ufCli
+
+                // restaurar a tecla Enter
+                restaurarEnter()
+                // desativar o botão adicionar
+                btnCreate.disabled = true
+                // ativar os botões editar e excluir
+                btnUpdate.disabled = false
+                btnDelete.disabled = false
     
             });
     
@@ -217,7 +266,6 @@ function searchCliente() {
 
 // == Fim Crud Read  ==========================================
 //=============================================================
-
 
 // ============================================================
 // == Reset Form ==============================================

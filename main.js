@@ -205,6 +205,7 @@ ipcMain.on('new-client', async (event, cadCliente) => {
 	// Importante! Teste de recebimento dos dados do cliente
 	console.log(cadCliente)
 	// Cadastrar a estrutura de dados no banco de dados MongoDB
+	//Atenção! Os atributos precisam ser idênticos ao modelo de dados Clientes.js e os valores são definidos pelo conteúdo do objeto cliente
 	try {
 		const newCliente = new clientesModel({
 			nomeCli: cadCliente.cadNome,
@@ -333,6 +334,59 @@ async function perguntarCadastro(event) {
 		}
 	})
 }
+
+
+//=======================================================================
+
+// ============================================================
+// == Crud Update =============================================
+
+ipcMain.on('update-client', async (event, cadCliente) => {
+	//importante! teste de recebimento dos dados do cliente 
+	console.log(cadCliente)
+
+	// Alterar a estrutura de dados no banco de dados MongoDB
+	try {
+		//Alterar uma nova estrurura de dados usando a classe modelo. Atenção! Os atributos precisam ser identicos ao modelo de dados Cliente.js e os valores são definidos pelo conteúdo do objeto cliente
+
+		const updateClient = await clientesModel.findByIdAndUpdate(
+			cadCliente.idCli, //isso vem do update, lado esquerdo do cadCliente
+			{
+			nomeCli: cadCliente.cadNome,
+            telCli: cadCliente.cadTel,
+            nascCli: cadCliente.cadNasc,
+            emailCli: cadCliente.cadEmail,
+            cpfCli: cadCliente.cadCpf,
+            cepCli: cadCliente.cadCep,
+            ruaCli: cadCliente.cadLogradouro,
+            NumCli: cadCliente.cadNumero,
+            complementoCli: cadCliente.cadComplemento,
+            bairroCli: cadCliente.cadBairro,
+            cidadeCli: cadCliente.cadCidade,
+            ufCli: cadCliente.cadUf
+			},
+			{
+				new: true
+			}
+		)
+		//mensagem de confirmação
+		dialog.showMessageBox({
+			type:'info',
+			title:"Aviso",
+			message: "Dados do cliente alterados com sucesso",
+			buttons: ['OK']
+		}).then((result) => {
+			if (result.response === 0) {
+				event.reply('reset-form')
+			}
+		})
+	} catch (error) {
+		
+	}
+})
+
+// ============================================================
+// == FIM Crud Update =========================================
 
 
 async function relatorioClientes() {

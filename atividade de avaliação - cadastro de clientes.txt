@@ -35,7 +35,7 @@ Parte 5 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 Criar um botão para buscar o cliente pelo CPF
 Desafio extra (não obrigatório) usar o mesmo botão no campo de busca tanto
 para o nome como para o cpf (vale 2 créditos)
-
+ manipulação do enter
 
 Parte 6 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CRUD Delete: Criar o método de exclusão de um cliente

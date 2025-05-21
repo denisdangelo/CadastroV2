@@ -20,4 +20,5 @@ contextBridge.exposeInMainWorld('api', {
 	cpfDuplicate: (args) => ipcRenderer.on('cpf-duplicate', args),
     validateSearch: () => ipcRenderer.send('validate-search'),
     setName: (args) => ipcRenderer.on('set-name', args),
+    updateClient: (cadCliente) => ipcRenderer.send('update-client', cadCliente)
 })
