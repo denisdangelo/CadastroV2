@@ -381,7 +381,22 @@ ipcMain.on('update-client', async (event, cadCliente) => {
 			}
 		})
 	} catch (error) {
-		
+		//tratamento da excessão "CPF duplicado"
+        if (error.code === 11000) {
+            dialog.showMessageBox({
+                type: 'error',
+                title: "Atenção!",
+                message: "CPF já cadastrado.\nVerifique o número digitado.",
+                buttons: ['OK']
+            }).then((result) => {
+                // se o botão OK for pressionado
+                if (result.response === 0) {
+                    //Limpar o campo CPF, foco e borda em vermelho
+                }
+            })
+        } else {
+            console.log(error)
+        }
 	}
 })
 
