@@ -41,4 +41,6 @@ Parte 6 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CRUD Delete: Criar o método de exclusão de um cliente
 
 
+falta jogar o nome no campo nome
+
 

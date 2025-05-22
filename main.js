@@ -283,7 +283,7 @@ ipcMain.on('search-cli', async (event, buscaCli) => {
 
 		if (cliente.length === 0) {
 			// Se não encontrou cliente, pergunta se quer cadastrar
-			await perguntarCadastro(event)
+			await perguntarCadastro(event, buscaCli)
 		} else {
 			// Se encontrou, envia os dados para o renderer
 			await enviarCliente(event, cliente)
@@ -319,21 +319,28 @@ async function enviarCliente(event, cliente) {
 	event.reply('renderer-client', JSON.stringify(cliente))
 }
 
-async function perguntarCadastro(event) {
+async function perguntarCadastro(event, buscaCli) {
+	const valorLimpo = buscaCli.replace(/\D/g, '')
+  
 	const result = await dialog.showMessageBox({
-		type: 'warning',
-		title: 'Aviso',
-		message: 'Cliente Não Cadastrado. \nDeseja Cadastra-lo',
-		defaultId: 0,
-		buttons: ['Sim', 'Não']//[0,1]defaultId: 0 = sim 
-	}).then((result) => {
-		if (result.response === 0) {
-			event.reply('set-cli')
-		} else {
-			event.reply('reset-form')
-		}
+	  type: 'warning',
+	  title: 'Aviso',
+	  message: 'Cliente Não Cadastrado. \nDeseja Cadastra-lo',
+	  defaultId: 0,
+	  buttons: ['Sim', 'Não'] // 0 = Sim
 	})
-}
+  
+	if (result.response === 0) { // Usuário clicou "Sim"
+	  if (/^\d{11}$/.test(valorLimpo)) {
+		event.reply('set-cpf', valorLimpo)
+	  } else {
+		event.reply('set-name', buscaCli)
+	  }
+	} else {
+	  event.reply('reset-form')
+	}
+  }
+
 
 
 //=======================================================================

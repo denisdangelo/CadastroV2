@@ -214,6 +214,33 @@ function restaurarEnter(){
 // == Crud Read  ==============================================
 //=============================================================
 
+//setar o nome do cliente para fazer um novo cadastro se abusca retornar que o cliente não está cadastrado
+api.setName((args) => {
+    console.log("Teste do IPC 'set-name'")
+    //Recortar o nome da busca e star no campo nome do form
+    let busca = document.getElementById('searchClient').value
+    //limpar o campo de busca (foco foi capturado de forma global)
+    foco.value = ""
+    //foco no campo nome
+    cnome.focus()
+    //copiar o nome do cliente para o campo nome
+    cnome.value = busca
+    //restaurar tecla enter
+    restaurarEnter()
+})
+
+api.setCPF((args) => {
+    //recortar o CPF da busca e setar no campo CPF do form
+    let busca2 = document.getElementById('searchClient').value
+   //limpar o campo de busca chamado de foco globalmente
+    foco.value = ""
+     //foco no campo cpf
+     ccpf.focus()
+    // copiar o cpf para o campo cpf
+    ccpf.value = busca2
+    restaurarEnter()
+})
+
 function searchCliente() {
     //teste do botão buscar
     //console.log('teste do botão de buscar')
