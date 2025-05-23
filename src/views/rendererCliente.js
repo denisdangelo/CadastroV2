@@ -38,7 +38,7 @@ function buscarEndereco() {
     }
 }
 
-/* Função de validação do CPF para depois de terminar 
+// Função de validação do CPF para depois de terminar 
 
 function validarCPF() {
     var campo = document.getElementById('ccpf');
@@ -59,7 +59,7 @@ function validarCPF() {
     }
 }
 
-function TestaCPF(strCPF) {
+/* function TestaCPF(strCPF) {
     var Soma = 0;
     var Resto;
 
@@ -83,8 +83,8 @@ function TestaCPF(strCPF) {
     if (Resto !== parseInt(strCPF.charAt(10))) return false;
 
     return true;
-}
-*/
+}*/
+
 
 // capturar o foco na busca pelo nome do cliente
 // a constante foco obtem o elemento html (input) identificado como 'searchClient'
@@ -293,6 +293,18 @@ function searchCliente() {
 
 // == Fim Crud Read  ==========================================
 //=============================================================
+
+// ============================================================
+// == CRUD Delete =============================================
+
+function removeClient() {
+    //console.log(idClient.value) // teste do Passo 1
+    // Passo 2 - Envio do id para o main
+    api.deleteClient(idCliente.value)
+}
+
+// == Fim - CRUD Delete =======================================
+// ============================================================
 
 // ============================================================
 // == Reset Form ==============================================

@@ -41,26 +41,33 @@ const createWindow = () => {
 }
 
 // Janela sobre
+let about
 function aboutWindow() {
-	nativeTheme.themeSource = 'dark'
-	// a linha abaixo obtém a janela principal
-	const main = BrowserWindow.getFocusedWindow()
-	let about
-	// Estabelecer uma relação hierárquica entre janelas
-	if (main) {
-		// Criar a janela sobre
-		about = new BrowserWindow({
-			width: 360,
-			height: 200,
-			autoHideMenuBar: true,
-			resizable: false,
-			minimizable: false,
-			parent: main,
-			modal: true
-		})
-	}
-	//carregar o documento html na janela
-	about.loadFile('./src/views/sobre.html')
+  nativeTheme.themeSource = 'light'
+  const mainWindow = BrowserWindow.getFocusedWindow()
+  if (mainWindow) {
+    about = new BrowserWindow({
+      width: 320,
+      height: 280,
+      autoHideMenuBar: true,
+      resizable: false,
+      minimizable: false,
+      parent: mainWindow,
+      modal: true,
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js')
+      }
+    })
+  }
+
+  about.loadFile('./src/views/sobre.html')
+  ipcMain.on('about-exit', () => {
+    if (about && !about.isDestroyed()) {
+      about.close() 
+    }
+
+
+  })
 }
 
 // Janela cliente
@@ -344,6 +351,31 @@ async function perguntarCadastro(event, buscaCli) {
 
 
 //=======================================================================
+
+// ============================================================
+// == CRUD Delete =============================================
+
+ipcMain.on('delete-client', async (event, id) => {
+    //console.log(id) //teste do passo 2
+    // confirmação antes de excluir
+    const result = await dialog.showMessageBox(win, {
+        type: 'warning',
+        title: "Atenção!",
+        message: "Tem certeza que deseja excluir este cliente?\nEsta ação não poderá ser desfeita.",
+        buttons: ['Cancelar', 'Excluir']
+    })
+    if (result.response === 1) {
+        try {
+            const delClient = await clienteModel.findByIdAndDelete(id)
+            event.reply('reset-form')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+})
+
+// == Fim - Crud delete =======================================
+// ============================================================
 
 // ============================================================
 // == Crud Update =============================================
