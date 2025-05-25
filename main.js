@@ -356,7 +356,7 @@ async function perguntarCadastro(event, buscaCli) {
 // == CRUD Delete =============================================
 
 ipcMain.on('delete-client', async (event, id) => {
-    //console.log(id) //teste do passo 2
+    console.log(id) //teste do passo 2
     // confirmação antes de excluir
     const result = await dialog.showMessageBox(win, {
         type: 'warning',
@@ -366,7 +366,7 @@ ipcMain.on('delete-client', async (event, id) => {
     })
     if (result.response === 1) {
         try {
-            const delClient = await clienteModel.findByIdAndDelete(id)
+            const delClient = await clientesModel.findByIdAndDelete(id)
             event.reply('reset-form')
         } catch (error) {
             console.log(error)

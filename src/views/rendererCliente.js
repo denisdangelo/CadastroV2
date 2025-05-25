@@ -38,7 +38,7 @@ function buscarEndereco() {
     }
 }
 
-// Função de validação do CPF para depois de terminar 
+/* Função de validação do CPF para depois de terminar 
 
 function validarCPF() {
     var campo = document.getElementById('ccpf');
@@ -59,7 +59,7 @@ function validarCPF() {
     }
 }
 
-/* function TestaCPF(strCPF) {
+function TestaCPF(strCPF) {
     var Soma = 0;
     var Resto;
 
