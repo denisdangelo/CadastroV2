@@ -78,7 +78,7 @@ function clientWindow() {
 	if (main) {
 		client = new BrowserWindow({
 			width: 1010,
-			height: 680,
+			height: 740,
 			//autoHideMenuBar: true,
 			//resizable: false,
 			parent: main,
