@@ -38,7 +38,7 @@ function buscarEndereco() {
     }
 }
 
-/* Função de validação do CPF para depois de terminar 
+// Função de validação do CPF para depois de terminar 
 
 function validarCPF() {
     var campo = document.getElementById('ccpf');
@@ -50,11 +50,13 @@ function validarCPF() {
         mensagemErro.style.display = 'inline'; // Exibe a mensagem de erro
         campo.value = ""; // Limpa o campo
         campo.focus(); // Volta o foco para o campo do CPF
+        ccpf.classList.add("is-invalid");
         
         return false; // Retorna false para indicar que o CPF é inválido
     } else {
         console.log("CPF válido!");
         mensagemErro.style.display = 'none'; // Oculta a mensagem de erro
+        ccpf.classList.add("is-valid");
         return true; // Retorna true para indicar que o CPF é válido
     }
 }
@@ -83,7 +85,7 @@ function TestaCPF(strCPF) {
     if (Resto !== parseInt(strCPF.charAt(10))) return false;
 
     return true;
-}*/
+}
 
 
 // capturar o foco na busca pelo nome do cliente
